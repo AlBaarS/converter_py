@@ -3,15 +3,13 @@
 import convert
 import unittest
 
-class TestBaseConverterObject(unittest.TestCase):
+class TestConverterObjects(unittest.TestCase):
 
     def test_doubling(self):
         input_number: float = 21
         output_expect: float = 42
         output_test: float = convert.BaseConverter().convert(input_number, "base", "double")
         self.assertEqual(output_expect, output_test)
-
-class TestDistanceConverterObj(unittest.TestCase):
 
     def test_meter_to_centimeter(self):
         input_number: float = 0.42
@@ -23,6 +21,12 @@ class TestDistanceConverterObj(unittest.TestCase):
         input_number: float = 137.79527559
         output_expect: float = 42
         output_test: float = convert.DistanceConverter().convert(input_number, "foot", "meter")
+        self.assertAlmostEqual(output_expect, output_test)
+
+    def test_hour_to_day(self):
+        input_number: float = 48
+        output_expect: float = 2
+        output_test: float = convert.TimeConverter().convert(input_number, "hour", "day")
         self.assertAlmostEqual(output_expect, output_test)
 
 if __name__ == '__main__':
