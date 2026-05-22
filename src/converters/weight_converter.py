@@ -2,7 +2,7 @@ from .base_converter import BaseConverter
 
 class WeightConverter(BaseConverter):
 
-    conversion_multiplier: dict[str, float] = {
+    conversion_multipliers: dict[str, float] = {
         "nanogram":   1e12,
         "microgram":  1e9,
         "milligram":  1e6,

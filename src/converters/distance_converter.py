@@ -2,7 +2,7 @@ from .base_converter import BaseConverter
 
 class DistanceConverter(BaseConverter):
 
-    conversion_multiplier: dict[str, float] = {
+    conversion_multipliers: dict[str, float] = {
         "nanometer":     1e9,
         "micrometer":    1e6,
         "millimeter":    1e3,

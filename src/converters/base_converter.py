@@ -1,6 +1,6 @@
 class BaseConverter:
 
-    conversion_multiplier: dict[str, float] = {
+    conversion_multipliers: dict[str, float] = {
         "base":   1,
         "half": 2
     }
@@ -10,11 +10,19 @@ class BaseConverter:
         "half": ["h","hf","half"]
     }
 
+    # Printing methods
     def __str__(self) -> str:
-        return str(self.conversion_multiplier)
+        return str(str(self.conversion_multipliers) + "\n" + str(self.units))
+    
+    def list_multipliers(self) -> dict[str, float]:
+        return self.conversion_multipliers
+    
+    def list_units(self) -> dict[str, list[str]]:
+        return self.units
 
+    # Functional methods
     def convert(self, number: float, input_unit: str, output_unit: str) -> float:
-        multiplier: float = self.conversion_multiplier[output_unit] / self.conversion_multiplier[input_unit]
+        multiplier: float = self.conversion_multipliers[output_unit] / self.conversion_multipliers[input_unit]
         return number * multiplier
     
     def which_unit(self, symbol: str) -> str:

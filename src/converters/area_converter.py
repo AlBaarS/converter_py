@@ -2,7 +2,7 @@ from .base_converter import BaseConverter
 
 class AreaConverter(BaseConverter):
 
-    conversion_multiplier: dict[str, float] = {
+    conversion_multipliers: dict[str, float] = {
         "square_nanometer":  1e18,
         "square_micrometer": 1e12,
         "square_millimeter": 1e6,

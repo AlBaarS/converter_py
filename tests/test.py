@@ -1,5 +1,6 @@
 #!/bin/python3
 
+# Import converters
 from src.converters.area_converter import AreaConverter
 from src.converters.base_converter import BaseConverter
 from src.converters.distance_converter import DistanceConverter
@@ -7,6 +8,13 @@ from src.converters.time_converter import TimeConverter
 from src.converters.volume_converter import VolumeConverter
 from src.converters.weight_converter import WeightConverter
 
+# Import input functions
+from src.input.input_handling import input_handler
+
+# Import exceptions
+from src.exceptions.invalid_number_of_input_items import InvalidNumberOfInputArgumentsError
+
+# Import python modules
 import unittest
 
 class TestConverterObjects(unittest.TestCase):
@@ -58,6 +66,25 @@ class TestConverterObjects(unittest.TestCase):
                     else:
                         all_units.append(unit)
         self.assertEqual(duplicates, [])
+
+class TestInputHandlerFunctions(unittest.TestCase):
+    def test_if_input_handler_returns_a_correct_tuple(self):
+        input_command_fmt1: str = "2.4m to ft"
+        input_command_fmt2: str = "1.2 l to cup"
+        input_command_fmt3: str = "40 square meters to square feet"
+        output_expect_fmt1: tuple[float, str, str] = (2.4, "m", "ft")
+        output_expect_fmt2: tuple[float, str, str] = (1.2, "l", "cup")
+        output_expect_fmt3: tuple[float, str, str] = (40, "square meters", "square feet")
+        output_test_fmt1: tuple[float, str, str] = input_handler(input_command_fmt1)
+        output_test_fmt2: tuple[float, str, str] = input_handler(input_command_fmt2)
+        output_test_fmt3: tuple[float, str, str] = input_handler(input_command_fmt3)
+        self.assertEqual(output_expect_fmt1, output_test_fmt1)
+        self.assertEqual(output_expect_fmt2, output_test_fmt2)
+        self.assertEqual(output_expect_fmt3, output_test_fmt3)
+
+    def test_if_incorrect_input_throws_expected_exception(self):
+        input_command: str = "to be or not to be that is the question"
+        self.assertRaises(InvalidNumberOfInputArgumentsError, input_handler, input_command)
 
 if __name__ == '__main__':
     unittest.main()

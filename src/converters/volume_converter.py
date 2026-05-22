@@ -2,7 +2,7 @@ from .base_converter import BaseConverter
 
 class VolumeConverter(BaseConverter):
 
-    conversion_multiplier: dict[str, float] = {
+    conversion_multipliers: dict[str, float] = {
         "nanoliter":       1e9,
         "microliter":      1e6,
         "milliliter":      1e3,

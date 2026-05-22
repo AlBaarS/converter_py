@@ -2,7 +2,7 @@ from .base_converter import BaseConverter
 
 class TimeConverter(BaseConverter):
 
-    conversion_multiplier: dict[str, float] = {
+    conversion_multipliers: dict[str, float] = {
         "picosecond":  3.6e15,
         "nanosecond":  3.6e12,
         "microsecond": 3.6e9,
