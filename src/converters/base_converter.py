@@ -2,12 +2,12 @@ class BaseConverter:
 
     conversion_multiplier: dict[str, float] = {
         "base":   1,
-        "double": 2
+        "half": 2
     }
 
     units: dict[str, list[str]] = {
         "base":   ["b","bs","base"],
-        "double": ["d","db","double"]
+        "half": ["h","hf","half"]
     }
 
     def __str__(self) -> str:

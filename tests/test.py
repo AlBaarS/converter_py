@@ -3,7 +3,6 @@
 from src.converters.base_converter import BaseConverter
 from src.converters.distance_converter import DistanceConverter
 from src.converters.time_converter import TimeConverter
-from src.input.unit_determinator import UnitDeterminator
 import unittest
 
 class TestConverterObjects(unittest.TestCase):
@@ -11,7 +10,7 @@ class TestConverterObjects(unittest.TestCase):
     def test_doubling(self):
         input_number: float = 21
         output_expect: float = 42
-        output_test: float = BaseConverter().convert(input_number, "base", "double")
+        output_test: float = BaseConverter().convert(input_number, "base", "half")
         self.assertEqual(output_expect, output_test)
 
     def test_meter_to_centimeter(self):
@@ -33,8 +32,8 @@ class TestConverterObjects(unittest.TestCase):
         self.assertAlmostEqual(output_expect, output_test)
 
     def test_if_symbol_can_be_found(self):
-        input_symbol: str = "db"
-        output_expect: str = "double"
+        input_symbol: str = "hf"
+        output_expect: str = "half"
         output_test: str = BaseConverter().which_unit(input_symbol)
         self.assertEqual(output_expect, output_test)
 
