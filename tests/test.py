@@ -1,8 +1,12 @@
 #!/bin/python3
 
+from src.converters.area_converter import AreaConverter
 from src.converters.base_converter import BaseConverter
 from src.converters.distance_converter import DistanceConverter
 from src.converters.time_converter import TimeConverter
+from src.converters.volume_converter import VolumeConverter
+from src.converters.weight_converter import WeightConverter
+
 import unittest
 
 class TestConverterObjects(unittest.TestCase):
@@ -43,12 +47,10 @@ class TestConverterObjects(unittest.TestCase):
         output_test: str = BaseConverter().which_unit(input_symbol)
         self.assertEqual(output_expect, output_test)
 
-class TestUnitDetermination(unittest.TestCase):
-
     def test_if_there_are_duplicate_unit_definitions(self):
         all_units: list[str] = []
         duplicates: list[str] = []
-        for category in UnitDeterminator().list_units().values():
+        for category in [AreaConverter().list_units(), DistanceConverter().list_units(), TimeConverter().list_units(), VolumeConverter().list_units(), WeightConverter().list_units()]:
             for unit_definitions in category.values():
                 for unit in unit_definitions:
                     if unit in all_units:
