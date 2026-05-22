@@ -1,7 +1,7 @@
 class BaseConverter:
 
     conversion_multiplier: dict[str, float] = {
-        "base": 1,
+        "base":   1,
         "double": 2
     }
 
