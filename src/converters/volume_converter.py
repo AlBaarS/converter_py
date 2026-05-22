@@ -15,3 +15,17 @@ class VolumeConverter(BaseConverter):
         "quart":           1.0566887074,
         "gallon":          0.2641721769
     }
+
+    units: dict[str, list[str]] = {
+        "nanoliter":       ["nl","nanoliter","nanolitre"],
+        "microliter":      ["µl","ul","microleter","microlitre","mm³","mm3","mm^3","cubic millimeter","cubic_millimeter","cubic millimetre","cubic_millimetre"],
+        "milliliter":      ["ml","milliliter","millilitre","cm³","cm3","cm^3","cubic centimeter","cubic_centimeter","cubic centimetre","cubic_centimetre"],
+        "liter":           ["l","liter","litre","dm³","dm3","dm^3","cubic decimeter","cubic_decimeter","cubic decimetre","cubic_decimetre"],
+        "cubic_meter":     ["m³","m3","m^3","cubic meter","cubic_meter","cubic metre","cubic_metre"],
+        "cubic_kilometer": ["km³","km3","km^3","cubic kilometer","cubic_kilometer","cubic kilometre","cubic_kilometre"],
+        "fluid_ounce":     ["fl oz","fl_oz","fluid ounce","fluid_ounce"],
+        "cup":             ["cup"],
+        "pint":            ["pt","p","pint"],
+        "quart":           ["qt","quart"],
+        "gallon":          ["gal","gallon"]
+    }

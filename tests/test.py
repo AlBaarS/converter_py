@@ -32,6 +32,18 @@ class TestConverterObjects(unittest.TestCase):
         output_test: float = TimeConverter().convert(input_number, "hour", "day")
         self.assertAlmostEqual(output_expect, output_test)
 
+    def test_if_symbol_can_be_found(self):
+        input_symbol: str = "db"
+        output_expect: str = "double"
+        output_test: str = BaseConverter().which_unit(input_symbol)
+        self.assertEqual(output_expect, output_test)
+
+    def test_if_symbol_that_is_not_present_returns_an_empty_string(self):
+        input_symbol: str = "foo"
+        output_expect: str = ""
+        output_test: str = BaseConverter().which_unit(input_symbol)
+        self.assertEqual(output_expect, output_test)
+
 class TestUnitDetermination(unittest.TestCase):
 
     def test_if_there_are_duplicate_unit_definitions(self):

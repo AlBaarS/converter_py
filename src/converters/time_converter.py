@@ -15,3 +15,17 @@ class TimeConverter(BaseConverter):
         "month":       1.3689254e-3,
         "year":        1.140771e-4
     }
+
+    units: dict[str, list[str]] = {
+        "picosecond":  ["ps","picosecond"],
+        "nanosecond":  ["ns","nanosecond"],
+        "microsecond": ["µs","us","microsecond"],
+        "millisecond": ["ms","millisecond"],
+        "second":      ["s","sec","second"],
+        "minute":      ["mn","min","minute"],
+        "hour":        ["hr","hour"],
+        "day":         ["dy","day"],
+        "week":        ["wk","week"],
+        "month":       ["mo","month"],
+        "year":        ["yr","year"]
+    }

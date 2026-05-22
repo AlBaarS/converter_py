@@ -19,3 +19,21 @@ class DistanceConverter(BaseConverter):
         "nautical_mile": 5.399568e-4,
         "lightyear":     1.057008707e16
     }
+
+    units: dict[str, list[str]] = {
+        "nanometer":     ["nm","nanometer","nanometre"],
+        "micrometer":    ["µm","um","micrometer","micrometre"],
+        "millimeter":    ["mm","millimeter","millimetre"],
+        "centimeter":    ["cm","centimeter","centimetre"],
+        "decimeter":     ["dm","decimeter","decimetre"],
+        "meter":         ["m","meter","metre"],
+        "decameter":     ["dam","decameter","decametre"],
+        "hectometer":    ["hm","hectometer","hectometre"],
+        "kilometer":     ["km","kilometer","kilometre"],
+        "inch":          ["in","inch"],
+        "foot":          ["ft","ft.","foot"],
+        "yard":          ["yd","yard"],
+        "mile":          ["mi","mile"],
+        "nautical_mile": ["nmi","nautical mile","nautical_mile"],
+        "lightyear":     ["ly","light year","light_year","light-year"]
+    }
