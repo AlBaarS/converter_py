@@ -5,28 +5,35 @@ convert.py 40 square meters to square feet
 """
 
 from re import Match, match, search, split
+import warnings
+
 from src.exceptions.invalid_number_of_input_items import InvalidNumberOfInputArgumentsError
 from src.exceptions.no_number_found import NoNumberFoundError
 from src.exceptions.no_unit_found import NoUnitFoundError
 
 def input_handler(command: str) -> tuple[float, str, str]:
+
+    number_match: str = r"\d+\.\d+|\d+"
+    string_match: str = r"[a-zA-Z]+[\s_][a-zA-Z]+|[a-zA-Z]+"
+
     input_split: list[str] = split("to", command)
     if len(input_split) != 2:
         raise InvalidNumberOfInputArgumentsError()
-    
-    number_match: Match[str] | None = match(r"\d+\.\d+|\d+", input_split[0]) # match ensures it starts with a number
-    string_match: Match[str] | None = search(r"[a-zA-Z\s]+", input_split[0]) # search searches through the whole string
 
-    if number_match != None:
-        input_value: float = float(number_match.group().strip())
+    input_value_match: Match[str] | None = match(number_match, input_split[0]) # match ensures it starts with a number
+    input_unit_match: Match[str] | None = search(string_match, input_split[0]) # search searches through the whole input string
+    output_unit_match: Match[str] | None = search(string_match, input_split[1])
+
+    if input_value_match != None:
+        input_value: float = float(input_value_match.group().strip())
     else:
         raise NoNumberFoundError()
-    if string_match != None:
-        input_unit: str = string_match.group().strip()
+    if input_unit_match != None:
+        input_unit: str = input_unit_match.group().strip()
     else:
         raise NoUnitFoundError()
-    if input_split[1] != "":
-        output_unit: str = input_split[1].strip()
+    if output_unit_match != None:
+        output_unit: str = output_unit_match.group().strip()
     else:
         raise NoUnitFoundError()
     
