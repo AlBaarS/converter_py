@@ -35,3 +35,5 @@ class AreaConverter(BaseConverter):
         "acre":              ["acre","ac"],
         "square_mile":       ["mi²","mi2","mi^2","sqmi","sq_mi","square mile","square_mile"]
     }
+
+    type: str = "area"

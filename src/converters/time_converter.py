@@ -29,3 +29,5 @@ class TimeConverter(BaseConverter):
         "month":       ["mo","month"],
         "year":        ["yr","year"]
     }
+
+    type: str = "time"

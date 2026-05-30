@@ -29,3 +29,5 @@ class VolumeConverter(BaseConverter):
         "quart":           ["qt","quart"],
         "gallon":          ["gal","gallon"]
     }
+
+    type: str = "volume"

@@ -27,3 +27,5 @@ class WeightConverter(BaseConverter):
         "short_ton":  ["st","s_t","short ton","short_ton","short tonne","short_tonne"],
         "long_ton":   ["lt","l_t","long ton","long_ton","long tonne","long_tonne"]
     }
+
+    type: str = "weight"

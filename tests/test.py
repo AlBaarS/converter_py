@@ -8,16 +8,14 @@ from src.converters.time_converter import TimeConverter
 from src.converters.volume_converter import VolumeConverter
 from src.converters.weight_converter import WeightConverter
 
-# Import input function
-from src.input.input_handler import input_handler
-
-# Import converter function
-from src.converter import converter
+# Import converter class
+from src.orchestrator import Orchestrator
 
 # Import exceptions
 from src.exceptions.invalid_number_of_input_items import InvalidNumberOfInputArgumentsError
 from src.exceptions.no_number_found import NoNumberFoundError
 from src.exceptions.no_unit_found import NoUnitFoundError
+from src.exceptions.incompatible_units import IncompatibleUnits
 
 # Import python modules
 import unittest
@@ -51,14 +49,14 @@ class TestConverterObjects(unittest.TestCase):
     def test_if_symbol_can_be_found(self):
         input_symbol: str = "hf"
         output_expect: str = "half"
-        output_test: str = BaseConverter().which_unit(input_symbol)
-        self.assertEqual(output_expect, output_test)
+        output_test: tuple[str, str] = BaseConverter().which_unit(input_symbol)
+        self.assertEqual(output_expect, output_test[0])
 
     def test_if_symbol_that_is_not_present_returns_an_empty_string(self):
         input_symbol: str = "foo"
         output_expect: str = ""
-        output_test: str = BaseConverter().which_unit(input_symbol)
-        self.assertEqual(output_expect, output_test)
+        output_test: tuple[str, str]  = BaseConverter().which_unit(input_symbol)
+        self.assertEqual(output_expect, output_test[0])
 
     def test_if_there_are_duplicate_unit_definitions(self):
         all_units: list[str] = []
@@ -72,43 +70,67 @@ class TestConverterObjects(unittest.TestCase):
                         all_units.append(unit)
         self.assertEqual(duplicates, [])
 
-class TestInputHandlerFunctions(unittest.TestCase):
-    def test_if_input_handler_returns_a_correct_tuple_in_happy_paths(self):
-        input_command_fmt1: str = "2.4m to ft"
-        input_command_fmt2: str = "1.2 l to cup"
-        input_command_fmt3: str = "40 square meters to square feet"
-        output_expect_fmt1: tuple[float, str, str] = (2.4, "m", "ft")
-        output_expect_fmt2: tuple[float, str, str] = (1.2, "l", "cup")
-        output_expect_fmt3: tuple[float, str, str] = (40, "square meters", "square feet")
-        output_test_fmt1: tuple[float, str, str] = input_handler(input_command_fmt1)
-        output_test_fmt2: tuple[float, str, str] = input_handler(input_command_fmt2)
-        output_test_fmt3: tuple[float, str, str] = input_handler(input_command_fmt3)
-        self.assertEqual(output_expect_fmt1, output_test_fmt1)
-        self.assertEqual(output_expect_fmt2, output_test_fmt2)
-        self.assertEqual(output_expect_fmt3, output_test_fmt3)
+class TestOrchestratorClass(unittest.TestCase):
+    
+    def test_if_conversion_works(self):
+        input_data: str = "2 metre to centimetre"
+        output_expect: str = "200 centimeters (cm)"
+        output_test: str = Orchestrator().convert(input_data, -1) # type: ignore
+        self.assertEqual(output_expect, output_test)
+    
+    def test_if_the_resulting_unit_is_singular_if_the_answer_is_precisely_1(self):
+        input_data: str = "100 cm to m"
+        output_expect: str = "1 meter (m)"
+        output_test: str = Orchestrator().convert(input_data, -1) # type: ignore
+        self.assertEqual(output_expect, output_test)
 
+    def test_if_the_output_is_rounded_correctly(self):
+        input_data: str = "1 metre to yard"
+        output_expect: str = "1.094 yards (yd)"
+        output_test: str = Orchestrator().convert(input_data, 3) # type: ignore
+        self.assertEqual(output_expect, output_test)
+
+    def test_if_units_ending_in_s_are_correctly_detected(self):
+        input_data: str = "2 cups to quarts"
+        output_expect: str = "0.5 quarts (qt)"
+        output_test: str = Orchestrator().convert(input_data, 1) # type: ignore
+        self.assertEqual(output_expect, output_test)
+    
     def test_if_multiple_to_results_in_InvaludNumberOfInputArgumentsError(self):
         input_command: str = "to be or not to be that is the question"
-        self.assertRaises(InvalidNumberOfInputArgumentsError, input_handler, input_command)
+        self.assertRaises(InvalidNumberOfInputArgumentsError, Orchestrator().convert, input_command, -1)
 
     def test_if_a_string_at_the_start_results_in_a_NoNumberFoundError(self):
         input_command: str = "please convert 40 square meters to square feet"
-        self.assertRaises(NoNumberFoundError, input_handler, input_command)
+        self.assertRaises(NoNumberFoundError, Orchestrator().convert, input_command, -1)
+
+    def test_if_giberrish_input_unit_results_in_a_NoUnitFoundError(self):
+        input_command: str = "23ef2t43fe to square feet"
+        self.assertRaises(NoUnitFoundError, Orchestrator().convert, input_command, -1)
+
+    def test_if_giberrish_output_unit_results_in_a_NoUnitFoundError(self):
+        input_command: str = "20 minutes to 1dnfu219nt2wf3940t"
+        self.assertRaises(NoUnitFoundError, Orchestrator().convert, input_command, -1)
+
+    def test_if_correctly_formatted_non_existent_unit_results_in_a_NoUnitFoundError(self):
+        input_command: str = "23 football fields to square feet"
+        self.assertRaises(NoUnitFoundError, Orchestrator().convert, input_command, -1)
+
+    def test_if_non_matching_unit_types_result_in_a_IncompatibleUnitsError(self):
+        input_command: str = "30 seconds to lightyears"
+        self.assertRaises(NoUnitFoundError, Orchestrator().convert, input_command, -1)
 
     def test_if_the_first_number_is_selected_when_multiple_are_submitted(self):
-        input_command: str = "40 5.3 69 square meters to square feet"
-        output_expect: tuple[float, str, str] = (40, "square meters", "square feet")
-        output_test: tuple[float, str, str] = input_handler(input_command)
+        input_command: str = "400 5.3 69 square meters to square decameters"
+        output_expect: str = "4 square decameters (dam²)"
+        output_test: str = Orchestrator().convert(input_command, -1) # type: ignore
         self.assertEqual(output_expect, output_test)
 
     def test_if_multiple_strings_as_unit_are_handled_correctly(self):
-        input_command: str = "40 square meters bilbo baggins to square feet"
-        output_expect: tuple[float, str, str] = (40, "square meters", "square feet")
-        output_test: tuple[float, str, str] = input_handler(input_command)
+        input_command: str = "400 square meters bilbo baggins to square decameters"
+        output_expect: str = "4 square decameters (dam²)"
+        output_test: str = Orchestrator().convert(input_command, -1) # type: ignore
         self.assertEqual(output_expect, output_test)
-
-class TestConverterFunction(unittest.TestCase):
-    
 
 if __name__ == '__main__':
     unittest.main()

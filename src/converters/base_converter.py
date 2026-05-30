@@ -10,9 +10,11 @@ class BaseConverter:
         "half": ["h","hf","half"]
     }
 
+    type: str = "Base class"
+
     # Printing methods
     def __str__(self) -> str:
-        return str(str(self.conversion_multipliers) + "\n" + str(self.units))
+        return str(self.type + "\n" + str(self.conversion_multipliers) + "\n" + str(self.units))
     
     def list_multipliers(self) -> dict[str, float]:
         return self.conversion_multipliers
@@ -25,9 +27,9 @@ class BaseConverter:
         multiplier: float = self.conversion_multipliers[output_unit] / self.conversion_multipliers[input_unit]
         return number * multiplier
     
-    def which_unit(self, symbol: str) -> str:
+    def which_unit(self, symbol: str) -> tuple[str, str]:
         found_unit: str = ""
         for unit, symbol_list in self.units.items():
             if symbol in symbol_list:
                 found_unit: str = unit
-        return found_unit
+        return (found_unit, self.type)
