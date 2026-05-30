@@ -5,7 +5,6 @@ convert.py 40 square meters to square feet
 """
 
 from re import Match, match, search, split
-import warnings
 
 from src.exceptions.invalid_number_of_input_items import InvalidNumberOfInputArgumentsError
 from src.exceptions.no_number_found import NoNumberFoundError

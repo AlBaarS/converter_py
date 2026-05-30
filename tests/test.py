@@ -8,8 +8,11 @@ from src.converters.time_converter import TimeConverter
 from src.converters.volume_converter import VolumeConverter
 from src.converters.weight_converter import WeightConverter
 
-# Import input functions
-from src.input.input_handling import input_handler
+# Import input function
+from src.input.input_handler import input_handler
+
+# Import converter function
+from src.converter import converter
 
 # Import exceptions
 from src.exceptions.invalid_number_of_input_items import InvalidNumberOfInputArgumentsError
@@ -103,6 +106,9 @@ class TestInputHandlerFunctions(unittest.TestCase):
         output_expect: tuple[float, str, str] = (40, "square meters", "square feet")
         output_test: tuple[float, str, str] = input_handler(input_command)
         self.assertEqual(output_expect, output_test)
+
+class TestConverterFunction(unittest.TestCase):
+    
 
 if __name__ == '__main__':
     unittest.main()
